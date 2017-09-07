@@ -1026,7 +1026,11 @@ function Beautifier(js_source_text, options) {
                     (last_type === 'TK_RESERVED' && is_special_word(flags.last_text) && flags.last_text !== 'else'))) {
                 output.space_before_token = true;
             } else {
-                print_newline(false, true);
+                var last_text = get_token(-1).text;
+                if (last_type !== 'TK_START_EXPR' && last_type !== 'TK_COMMA' && last_text !== ':' && last_text !== '&&' && last_text !== '||' && last_text !== '?')
+                {
+                    print_newline(false, true);
+                }
             }
         } else { // collapse || inline_frame
             if (is_array(previous_flags.mode) && (last_type === 'TK_START_EXPR' || last_type === 'TK_COMMA')) {
